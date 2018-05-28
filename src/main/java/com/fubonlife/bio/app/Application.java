@@ -13,9 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.fubonlife.bio.config.HttpSessionConfig;
-
-
-
+import com.fubonlife.bio.config.WebSecurityConfig;
 
 
 // Spring Data MongoDB
@@ -25,8 +23,8 @@ import com.fubonlife.bio.config.HttpSessionConfig;
 @EnableJpaRepositories(basePackages = "com.fubonlife.bio.repository.jpa")
 @EntityScan("com.fubonlife.bio.entity.jpa") 
 
-// Spring Session Mongo
-@Import({ HttpSessionConfig.class})
+// Spring Security and Session Mongo
+//@Import({ WebSecurityConfig.class})
 
 @PropertySource("classpath:config-${spring.profiles.active:local}.properties")
 @ComponentScan(basePackages = { "com.fubonlife.bio.controller", "com.fubonlife.bio.service" })
