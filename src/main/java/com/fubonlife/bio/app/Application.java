@@ -24,7 +24,7 @@ import com.fubonlife.bio.config.WebSecurityConfig;
 @EntityScan("com.fubonlife.bio.entity.jpa") 
 
 // Spring Security and Session Mongo
-//@Import({ WebSecurityConfig.class})
+@Import({ WebSecurityConfig.class})
 
 @PropertySource("classpath:config-${spring.profiles.active:local}.properties")
 @ComponentScan(basePackages = { "com.fubonlife.bio.controller", "com.fubonlife.bio.service" })

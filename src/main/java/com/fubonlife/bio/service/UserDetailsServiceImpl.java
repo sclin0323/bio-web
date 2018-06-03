@@ -1,28 +1,60 @@
 package com.fubonlife.bio.service;
 
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.fubonlife.bio.controller.MainController;
+import com.fubonlife.bio.entity.mongo.User;
+import com.fubonlife.bio.repository.mongo.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+	
+	//@Autowired
+	//UserRepository userRepository;
 
+	@SuppressWarnings("unused")
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		log.info("**********************************************");
+		log.info("username: "+username);
 	
-		UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
+		/*Here we are using dummy data, you need to load user data from
+	     database or other third party application*/
+	    //User user = findUserbyUername(username);
 		
-		return builder.build();
+		User user = new User();
+		user.setUserId("admin1");
+		user.setPassword("abc123");
+		user.setName("SHANG-CHUN, LIN");
+
+	    UserBuilder builder = null;
+	    if (user != null) {
+	      builder = org.springframework.security.core.userdetails.User.withUsername(username);
+	      builder.password(user.getPassword());
+	      
+	      String[] roles = {"ADMIN"};
+	      builder.roles(roles);
+	    } else {
+	      throw new UsernameNotFoundException("User not found.");
+	    }
+
+	    return builder.build();
+		
+		//UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
+		
+		//org.springframework.security.core.userdetails.User
+		
+		//return builder.build();
 	}
 
 }

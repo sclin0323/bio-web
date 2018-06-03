@@ -9,48 +9,51 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
+import com.fubonlife.bio.service.UserDetailsServiceImpl;
 
-//@Configuration
-//@EnableWebSecurity
+
+@Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
-//	@Autowired
-//	private UserDetailsServiceImpl userDetailsService;
-//	
-//	public WebSecurityConfig() {
-//		System.out.println("WebSecurityConfig");
-//	}
-//	
-//	@SuppressWarnings("deprecation")
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
+	
+	public WebSecurityConfig() {
+		System.out.println("WebSecurityConfig");
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Bean
+	public static NoOpPasswordEncoder passwordEncoder() {
+	  return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+	}
+	
 //	@Bean
-//	public static NoOpPasswordEncoder passwordEncoder() {
-//	  return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+//	public PasswordEncoder passwordEncoder() {
+//	  return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 //	}
-//	
-////	@Bean
-////	public PasswordEncoder passwordEncoder() {
-////	  return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-////	}
-//	
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//		.authorizeRequests()
-//			.antMatchers("/web/test/**").permitAll()		
-//			.antMatchers("/web/testadmin/**").hasRole("ADMIN")			
-//			.and().httpBasic();
-//	}
-//
-//	@Override
-//	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		
-//		//UserBuilder users = User.withDefaultPasswordEncoder();
-//		
-//		auth.inMemoryAuthentication().withUser("admin4").password("Password5").roles("ADMIN");
-//		//auth.passwordEncoder(passwordEncoder());
-//		//auth.inMemoryAuthentication().withUser("user1").password("user1Pass").roles("USER");
-//		//auth.userDetailsService(userDetailsService);
-//	}
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+		.authorizeRequests()
+			.antMatchers("/web/test/**").permitAll()		
+			.antMatchers("/web/testadmin/**").hasRole("ADMIN")			
+			.and().httpBasic();
+	}
+
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
+		//UserBuilder users = User.withDefaultPasswordEncoder();
+		//auth.userDetailsService(userDetailsService);
+		//auth.inMemoryAuthentication().withUser("admin6").password("abc123").roles("ADMIN");
+		auth.userDetailsService(userDetailsService);
+		//auth.passwordEncoder(passwordEncoder());
+		//auth.inMemoryAuthentication().withUser("user1").password("user1Pass").roles("USER");
+		//auth.userDetailsService(userDetailsService);
+	}
 
 	
 }
